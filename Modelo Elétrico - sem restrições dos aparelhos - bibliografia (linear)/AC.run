@@ -1,0 +1,40 @@
+####################### Operação de redes de distribuição ############################
+########################## considerando operação de ACs #############################
+
+reset;	# apaga a memoria
+
+# ----------------------------------------------------
+# 	Modelo linearizado
+# ----------------------------------------------------
+
+# Leitura do modelo
+model AC.mod;
+
+# Dados do sistema
+data AC_Dados_Modelo_Rede.dat;
+
+data AC.dat;
+
+# Define o solver e as opções
+option solver cplexamp;
+option display_1col 0;
+option display_round 4;
+option display_width 1000;
+option omit_zero_cols 1;	
+option cplex_options "mipdisplay=4" "mipgap=5.0e-4";
+#option cplex_options "mipgap=1e-3";
+#option cplex_options "relax";
+option log_file 'saidas\LOG.TXT';
+
+# Resolve o modelo matemático do ponto de operação inicial
+
+solve fo_consumo_energia_ativa_com_tarifa;
+#solve fo_consumo_energia_reativa_com_tarifa;
+#solve fo_consumo_energia_com_tarifa;
+#solve fo_desconforto;
+#solve fo_multiobjetivo;
+
+data AC_saidas.dat;
+
+printf "Arquivos Criados!!!\n";
+printf "Tempo de Execucao: %f minutos \n", _solve_elapsed_time/60;
